@@ -56,3 +56,6 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_154CC634FC874326A3D71B1C03D73C80 }}
           package: .
+
+      - name: Apply EF Core migrations
+        run: dotnet Rockaway.WebApp.dll -- --e ConnectionStrings:AZURE_SQL_CONNECTIONSTRING="${{ secrets.AZURE_SQL_CONNECTIONSTRING }}" apply-migrations=true
