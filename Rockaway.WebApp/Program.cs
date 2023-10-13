@@ -1,3 +1,4 @@
+using Rockaway.WebApp.Services;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,7 +9,7 @@ builder.Host.UseSerilog();
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-
+builder.Services.AddSingleton<IStatusReporter>(new StatusReporter());
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,5 +26,5 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
-
+app.MapGet("/status", (IStatusReporter reporter) => reporter.GetStatus());
 app.Run();
